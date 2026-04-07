@@ -17,6 +17,12 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (p) => p.replace(/^\/dev-fred/, ''),
       },
+      // 로컬 전용 — CNN Fear & Greed CORS 우회
+      '/dev-fng': {
+        target: 'https://production.dataviz.cnn.io',
+        changeOrigin: true,
+        rewrite: (p) => p.replace(/^\/dev-fng/, ''),
+      },
     },
   },
 })

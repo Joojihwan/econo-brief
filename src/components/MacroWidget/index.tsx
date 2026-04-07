@@ -1,15 +1,28 @@
 import { Typography, Alert, Box } from '@mui/material';
-import { useMacro } from '../../hooks/useMacro';
-import MacroCard, { MacroCardSkeleton } from './MacroCard';
-import MacroAnalysis from './MacroAnalysis';
+import { useMacro }      from '../../hooks/useMacro';
+import { useFearGreed }  from '../../hooks/useFearGreed';
+import MacroCard, { MacroCardSkeleton }         from './MacroCard';
+import FearGreedCard, { FearGreedCardSkeleton } from './FearGreedCard';
+import MacroAnalysis     from './MacroAnalysis';
 import styles from './MacroWidget.module.scss';
+
+function SectionHeader({ title }: { title: string }) {
+  return (
+    <Typography className={styles.sectionTitle}>{title}</Typography>
+  );
+}
 
 export default function MacroWidget() {
   const { data, isLoading, isError, dataUpdatedAt } = useMacro();
+  const { data: fgData, isLoading: fgLoading, isError: fgError } = useFearGreed();
 
   const updatedTime = dataUpdatedAt
     ? new Date(dataUpdatedAt).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })
     : null;
+
+  const macroData     = data?.filter((d) => d.config.category === 'macro')     ?? [];
+  const sentimentData = data?.filter((d) => d.config.category === 'sentiment') ?? [];
+  const fxData        = data?.filter((d) => d.config.category === 'fx')        ?? [];
 
   return (
     <div className={styles.container}>
@@ -31,11 +44,40 @@ export default function MacroWidget() {
         </Alert>
       )}
 
-      {/* Grid */}
+      {/* 매크로 지표 */}
       <div className={styles.grid}>
         {isLoading
-          ? Array.from({ length: 8 }).map((_, i) => <MacroCardSkeleton key={i} />)
-          : data?.map((d) => <MacroCard key={d.config.id} data={d} />)}
+          ? Array.from({ length: 6 }).map((_, i) => <MacroCardSkeleton key={i} />)
+          : macroData.map((d) => <MacroCard key={d.config.id} data={d} />)}
+      </div>
+
+      {/* 시장 심리 */}
+      <div className={styles.section}>
+        <SectionHeader title="시장 심리" />
+        <div className={styles.gridSm}>
+          {isLoading || fgLoading
+            ? Array.from({ length: 2 }).map((_, i) => <MacroCardSkeleton key={i} />)
+            : (
+              <>
+                {sentimentData.map((d) => <MacroCard key={d.config.id} data={d} />)}
+                {fgError
+                  ? null
+                  : fgData
+                    ? <FearGreedCard data={fgData} />
+                    : <FearGreedCardSkeleton />}
+              </>
+            )}
+        </div>
+      </div>
+
+      {/* 환율 */}
+      <div className={styles.section}>
+        <SectionHeader title="환율" />
+        <div className={styles.gridSm}>
+          {isLoading
+            ? Array.from({ length: 3 }).map((_, i) => <MacroCardSkeleton key={i} />)
+            : fxData.map((d) => <MacroCard key={d.config.id} data={d} />)}
+        </div>
       </div>
 
       {/* Analysis */}

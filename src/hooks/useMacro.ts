@@ -1,24 +1,33 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchMacroIndicators } from '../services/fredApi';
 
+export type MacroCategory = 'macro' | 'sentiment' | 'fx';
+
 export interface MacroIndicatorConfig {
-  id: string;           // FRED series ID
-  label: string;        // 표시 이름
-  unit: string;         // 단위 표시
-  description: string;  // 간단 설명
-  invertSignal?: boolean; // true이면 값 상승이 부정적 신호 (e.g. 실업률, VIX)
+  id: string;
+  label: string;
+  unit: string;
+  description: string;
+  frequency: string;
+  category: MacroCategory;
+  invertSignal?: boolean;
   isPercent?: boolean;
 }
 
 export const MACRO_SERIES: MacroIndicatorConfig[] = [
-  { id: 'FEDFUNDS',      label: '기준금리',      unit: '%',  description: '연방기금금리 (월)',          isPercent: true },
-  { id: 'DGS10',         label: '10년 국채',      unit: '%',  description: '미국 10년 국채금리 (일)',    isPercent: true },
-  { id: 'CPIAUCSL',      label: 'CPI',           unit: '',   description: '소비자물가지수 (월)',         invertSignal: true },
-  { id: 'UNRATE',        label: '실업률',         unit: '%',  description: '미국 실업률 (월)',            isPercent: true, invertSignal: true },
-  { id: 'SP500',         label: 'S&P 500',       unit: '',   description: 'S&P 500 지수 (일)' },
-  { id: 'VIXCLS',        label: 'VIX',           unit: '',   description: 'CBOE 변동성지수 (일)',        invertSignal: true },
-  { id: 'DCOILWTICO',    label: 'WTI 원유',       unit: '$',  description: 'WTI 원유 선물가격 (일)' },
-  { id: 'DTWEXBGS',      label: '달러 인덱스',    unit: '',   description: '무역가중 달러 인덱스 (일)' },
+  // ── 매크로 지표 ──────────────────────────────────────────────────────────────
+  { id: 'FEDFUNDS',   label: '기준금리',    unit: '%', description: '연방기금금리',       frequency: '월별', category: 'macro', isPercent: true },
+  { id: 'DGS10',      label: '10년 국채',   unit: '%', description: '미국 10년 국채금리',  frequency: '일별', category: 'macro', isPercent: true },
+  { id: 'CPIAUCSL',   label: 'CPI',        unit: '',  description: '소비자물가지수',      frequency: '월별', category: 'macro', invertSignal: true },
+  { id: 'UNRATE',     label: '실업률',      unit: '%', description: '미국 실업률',         frequency: '월별', category: 'macro', isPercent: true, invertSignal: true },
+  { id: 'SP500',      label: 'S&P 500',    unit: '',  description: 'S&P 500 지수',       frequency: '일별', category: 'macro' },
+  { id: 'DCOILWTICO', label: 'WTI 원유',    unit: '$', description: 'WTI 원유 선물가격',   frequency: '일별', category: 'macro' },
+  // ── 시장 심리 ────────────────────────────────────────────────────────────────
+  { id: 'VIXCLS',     label: 'VIX',        unit: '',  description: 'CBOE 변동성지수',     frequency: '일별', category: 'sentiment', invertSignal: true },
+  // ── 환율 ─────────────────────────────────────────────────────────────────────
+  { id: 'DTWEXBGS',   label: '달러 인덱스',  unit: '',  description: '무역가중 달러 인덱스', frequency: '주별', category: 'fx' },
+  { id: 'DEXKOUS',    label: '원 / 달러',   unit: '₩', description: '원화 대미달러 환율',   frequency: '일별', category: 'fx' },
+  { id: 'DEXJPUS',    label: '엔 / 달러',   unit: '¥', description: '엔화 대미달러 환율',   frequency: '일별', category: 'fx' },
 ];
 
 export interface MacroDataPoint {

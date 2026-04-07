@@ -16,15 +16,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const limit  = String(req.query.limit ?? '5');
   const order  = String(req.query.sort_order ?? 'desc');
 
+  // 한국(UTC+9) 기준 오늘 날짜를 observation_end로 설정
+  const koreaDate = new Date(Date.now() + 9 * 60 * 60 * 1000);
+  const observationEnd = koreaDate.toISOString().split('T')[0];
+
   // 서버에서 FRED를 병렬 호출 — CORS 없음, 빠른 응답
   const results = await Promise.all(
     ids.map(async (id) => {
       const params = new URLSearchParams({
-        series_id:  id,
-        api_key:    apiKey,
-        file_type:  'json',
+        series_id:       id,
+        api_key:         apiKey,
+        file_type:       'json',
         limit,
-        sort_order: order,
+        sort_order:      order,
+        observation_end: observationEnd,
       });
       try {
         const r = await fetch(

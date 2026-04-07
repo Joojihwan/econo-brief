@@ -11,11 +11,36 @@
 // ── Indicator grid ──────────────────────────────────────
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 10px;
 
-  @media (max-width: 960px)  { grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 1100px) { grid-template-columns: repeat(3, 1fr); }
   @media (max-width: 640px)  { grid-template-columns: repeat(2, 1fr); }
+}
+
+// 2~3열 소형 그리드 (시장심리 2개, 환율 3개)
+.gridSm {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+
+  @media (max-width: 640px) { grid-template-columns: repeat(2, 1fr); }
+}
+
+// ── Section ──────────────────────────────────────────────
+.section {
+  margin-top: $spacing-lg;
+  padding-top: $spacing-lg;
+  border-top: 1px solid $border-color;
+}
+
+.sectionTitle {
+  font-size: 0.7rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: $text-secondary !important;
+  margin-bottom: $spacing-md !important;
 }
 
 // ── Individual card ─────────────────────────────────────
@@ -111,11 +136,27 @@
   &.neutral  { color: $text-secondary; background: rgba(148, 163, 184, 0.08); }
 }
 
+.cardMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
 .cardDate {
   font-size: 0.65rem !important;
   color: $text-muted !important;
-  margin-top: 6px !important;
-  display: block;
+}
+
+.frequencyBadge {
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: $text-muted;
+  background: rgba(148, 163, 184, 0.08);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 3px;
+  padding: 1px 5px;
+  letter-spacing: 0.3px;
 }
 
 // ── Analysis section ────────────────────────────────────

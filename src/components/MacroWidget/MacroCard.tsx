@@ -21,6 +21,8 @@ export default function MacroCard({ data }: MacroCardProps) {
 
   const formatValue = (v: number) => {
     if (config.unit === '$') return v.toFixed(2);
+    if (config.unit === '₩') return v.toLocaleString('en-US', { maximumFractionDigits: 0 });
+    if (config.unit === '¥') return v.toFixed(2);
     if (config.isPercent)    return v.toFixed(2);
     if (v >= 1000)           return v.toLocaleString('en-US', { maximumFractionDigits: 1 });
     return v.toFixed(2);
@@ -73,8 +75,11 @@ export default function MacroCard({ data }: MacroCardProps) {
           </span>
         )}
 
-        {/* Date */}
-        <Typography className={styles.cardDate}>{date}</Typography>
+        {/* Date + Frequency */}
+        <div className={styles.cardMeta}>
+          <Typography className={styles.cardDate}>{date}</Typography>
+          <span className={styles.frequencyBadge}>{config.frequency}</span>
+        </div>
       </CardContent>
     </Card>
   );

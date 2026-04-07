@@ -34,12 +34,15 @@ async function fetchBatched(seriesIds: string[]): Promise<MacroSeriesResult[]> {
 
 // ── 로컬 dev: Vite 프록시 → FRED 직접 (CORS 우회) ───────────────────────────
 async function fetchDev(seriesId: string): Promise<FredObservation[]> {
+  const koreaDate = new Date(Date.now() + 9 * 60 * 60 * 1000);
+  const observationEnd = koreaDate.toISOString().split('T')[0];
   const params = new URLSearchParams({
-    series_id:  seriesId,
-    api_key:    import.meta.env.VITE_FRED_API_KEY as string,
-    file_type:  'json',
-    limit:      '5',
-    sort_order: 'desc',
+    series_id:       seriesId,
+    api_key:         import.meta.env.VITE_FRED_API_KEY as string,
+    file_type:       'json',
+    limit:           '5',
+    sort_order:      'desc',
+    observation_end: observationEnd,
   });
   const res = await fetch(`/dev-fred/fred/series/observations?${params}`);
   if (!res.ok) throw new Error(`FRED ${res.status}`);
