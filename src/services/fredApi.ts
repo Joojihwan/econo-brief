@@ -1,5 +1,8 @@
+// 로컬 dev: Vite 프록시가 FRED로 직접 포워딩 (VITE_FRED_API_KEY 사용)
+// 프로덕션: /api/fred Edge Function이 서버사이드 FRED_API_KEY로 처리
+const IS_DEV = import.meta.env.DEV;
 const API_KEY = import.meta.env.VITE_FRED_API_KEY as string;
-const BASE_URL = '/fred/fred/series/observations';
+const BASE_URL = IS_DEV ? '/dev-fred/fred/series/observations' : '/api/fred';
 
 export interface FredObservation {
   date: string;
