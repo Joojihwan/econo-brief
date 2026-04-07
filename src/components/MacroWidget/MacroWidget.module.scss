@@ -1,0 +1,182 @@
+@use '../../theme/variables' as *;
+
+// ── Container ───────────────────────────────────────────
+.container {
+  background: $bg-surface;
+  border-radius: $border-radius;
+  border: 1px solid $border-color;
+  padding: $spacing-lg;
+}
+
+// ── Indicator grid ──────────────────────────────────────
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+
+  @media (max-width: 960px)  { grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 640px)  { grid-template-columns: repeat(2, 1fr); }
+}
+
+// ── Individual card ─────────────────────────────────────
+.card {
+  position: relative;
+  background: $bg-card !important;
+  border: 1px solid $border-color !important;
+  border-radius: $border-radius !important;
+  overflow: hidden;
+  cursor: default;
+  transition: border-color 0.18s, background 0.18s;
+
+  &:hover {
+    background: $bg-card-hover !important;
+    border-color: $border-color-strong !important;
+  }
+
+  // colored top strip (set via CSS var from component)
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--signal-color, transparent);
+  }
+}
+
+.cardContent {
+  padding: 14px 16px !important;
+
+  &:last-child { padding-bottom: 14px !important; }
+}
+
+.cardLabel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.labelText {
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: $text-secondary !important;
+}
+
+.signalDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--signal-color, $text-muted);
+  opacity: 0.8;
+}
+
+.valueRow {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.valueNumber {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.5px;
+  color: $text-primary !important;
+  line-height: 1 !important;
+}
+
+.valueUnit {
+  font-size: 0.75rem;
+  color: $text-secondary;
+  font-weight: 400;
+  margin-left: 1px;
+}
+
+.changeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+  width: fit-content;
+
+  &.positive { color: $color-positive; background: rgba(52, 211, 153, 0.1); }
+  &.negative { color: $color-negative; background: rgba(248, 113, 113, 0.1); }
+  &.neutral  { color: $text-secondary; background: rgba(148, 163, 184, 0.08); }
+}
+
+.cardDate {
+  font-size: 0.65rem !important;
+  color: $text-muted !important;
+  margin-top: 6px !important;
+  display: block;
+}
+
+// ── Analysis section ────────────────────────────────────
+.analysisSection {
+  margin-top: $spacing-lg;
+  padding-top: $spacing-lg;
+  border-top: 1px solid $border-color;
+}
+
+.analysisHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: $spacing-md;
+}
+
+.analysisTitle {
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: $text-secondary !important;
+}
+
+.signalList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+
+  @media (max-width: 768px) { grid-template-columns: 1fr; }
+}
+
+.signalItem {
+  display: flex;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: $border-radius-sm;
+  background: $bg-card;
+  border: 1px solid $border-color;
+}
+
+.signalIndicator {
+  flex-shrink: 0;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--signal-color, $text-muted);
+  align-self: stretch;
+}
+
+.signalBody {}
+
+.signalLabel {
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  color: var(--signal-color, $text-secondary) !important;
+  margin-bottom: 3px !important;
+  display: block;
+}
+
+.signalText {
+  font-size: 0.8rem !important;
+  color: $text-secondary !important;
+  line-height: 1.55 !important;
+}

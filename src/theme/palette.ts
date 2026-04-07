@@ -1,22 +1,23 @@
 export const palette = {
   primary: {
-    main: '#1565c0',
-    light: '#1e88e5',
-    dark: '#0d47a1',
+    main: '#60a5fa',
+    light: '#93c5fd',
+    dark: '#3b82f6',
+    contrastText: '#080c14',
   },
   secondary: {
-    main: '#263238',
-    light: '#455a64',
-    dark: '#102027',
+    main: '#94a3b8',
+    light: '#cbd5e1',
+    dark: '#64748b',
   },
-  sentiment: {
-    positive: '#2e7d32',
-    negative: '#c62828',
-    neutral: '#546e7a',
+  signal: {
+    positive: '#34d399',
+    negative: '#f87171',
+    neutral: '#94a3b8',
   },
   background: {
-    default: '#f5f7fa',
-    paper: '#ffffff',
-    card: '#fafafa',
+    default: '#080c14',
+    surface: '#0f1522',
+    card: '#141d2e',
   },
 };

@@ -1,0 +1,55 @@
+@use '../theme/variables' as *;
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: $spacing-lg;
+  min-height: 52px !important;
+  padding: 0 $spacing-lg !important;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  user-select: none;
+  color: $text-primary;
+  flex-shrink: 0;
+}
+
+.logoAccent {
+  color: $color-accent;
+}
+
+.nav {
+  display: flex;
+  gap: 2px;
+}
+
+.navBtn {
+  background: none;
+  border: none;
+  color: $text-secondary;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: $border-radius-sm;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+  white-space: nowrap;
+
+  &:hover {
+    color: $text-primary;
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.navBtnActive {
+  color: $text-primary;
+  background: rgba(96, 165, 250, 0.12);
+
+  &:hover {
+    background: rgba(96, 165, 250, 0.18);
+  }
+}

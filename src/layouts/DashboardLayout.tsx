@@ -1,37 +1,49 @@
-import { Outlet } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Container, Box, Tabs, Tab } from '@mui/material';
-import { useNavigate, useLocation } from 'react-router-dom';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import ArticleIcon from '@mui/icons-material/Article';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { AppBar, Toolbar, Typography, Container, Box } from '@mui/material';
+import ShowChartIcon from '@mui/icons-material/ShowChart';
+import styles from './DashboardLayout.module.scss';
 
 const NAV_TABS = [
-  { label: '경제 브리핑', path: '/', icon: <BarChartIcon fontSize="small" /> },
-  { label: '주식 뉴스', path: '/stock-news', icon: <ArticleIcon fontSize="small" /> },
+  { label: '경제 브리핑', path: '/' },
+  { label: '주식 뉴스', path: '/stock-news' },
 ];
 
 export default function DashboardLayout() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const currentTab = NAV_TABS.findIndex((t) => t.path === pathname);
-
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <AppBar position="sticky" elevation={0} sx={{ borderBottom: '1px solid', borderColor: 'divider' }}>
-        <Toolbar>
-          <Typography variant="h6" sx={{ fontWeight: 700, letterSpacing: '-0.5px', mr: 4 }}>
-            econo-brief
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default' }}>
+      <AppBar position="sticky" elevation={0}>
+        <Toolbar className={styles.toolbar}>
+          {/* Logo */}
+          <Box className={styles.logo} onClick={() => navigate('/')}>
+            <ShowChartIcon sx={{ fontSize: 18, color: '#60a5fa' }} />
+            <Typography variant="subtitle1" fontWeight={700} letterSpacing="-0.3px">
+              econo<span className={styles.logoAccent}>brief</span>
+            </Typography>
+          </Box>
+
+          {/* Nav */}
+          <nav className={styles.nav}>
+            {NAV_TABS.map((tab) => {
+              const active = pathname === tab.path;
+              return (
+                <button
+                  key={tab.path}
+                  className={`${styles.navBtn} ${active ? styles.navBtnActive : ''}`}
+                  onClick={() => navigate(tab.path)}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
+          </nav>
+
+          {/* Right: date */}
+          <Typography variant="caption" sx={{ color: 'text.disabled', ml: 'auto' }}>
+            {new Date().toLocaleDateString('ko-KR', { month: 'short', day: 'numeric', weekday: 'short' })}
           </Typography>
-          <Tabs
-            value={currentTab === -1 ? 0 : currentTab}
-            onChange={(_, idx) => navigate(NAV_TABS[idx].path)}
-            textColor="inherit"
-            TabIndicatorProps={{ style: { backgroundColor: '#fff' } }}
-          >
-            {NAV_TABS.map((tab) => (
-              <Tab key={tab.path} label={tab.label} icon={tab.icon} iconPosition="start" />
-            ))}
-          </Tabs>
         </Toolbar>
       </AppBar>
 
