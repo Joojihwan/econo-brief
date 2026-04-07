@@ -11,11 +11,10 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      // 로컬 전용 프록시: FRED API CORS 우회
+      // 로컬 전용 — FRED CORS 우회 (프로덕션은 /api/fred 서버리스 함수가 처리)
       '/dev-fred': {
         target: 'https://api.stlouisfed.org',
         changeOrigin: true,
-        secure: true,
         rewrite: (p) => p.replace(/^\/dev-fred/, ''),
       },
     },
