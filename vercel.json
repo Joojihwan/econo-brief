@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/fred/:path*",
+      "destination": "https://api.stlouisfed.org/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
